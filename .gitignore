@@ -1,0 +1,229 @@
+# Maven
+target/
+.m2/
+*.jar
+*.war
+*.ear
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/MavenWrapperDownloader.java
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+.factorypath
+*.jdi
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# IDE - NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+.nb-gradle-properties
+
+# IDE - Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# IDE - Vim
+[._]*.s[a-vw][a-z]
+[._]s[a-rt][a-z]
+Session.vim
+.exrc
+
+# Java
+*.class
+*.jar
+*.zip
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+local.db
+test.db
+
+# OS - Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.exe
+*.msi
+
+# OS - macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Icon
+.VolumeIcon.icns
+
+# OS - Linux
+.directory
+.Trash-*
+*~
+
+# Environment and Local Configuration
+.env
+.env.local
+.env.*.local
+.properties
+local.properties
+gradle.properties
+
+# IDEs Local Settings and Cache
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings
+bin/
+.cache/
+.gradle/
+
+# Build and Test Artifacts
+build/
+dist/
+out/
+.gradle
+.groovy-eclipse.log
+bin/
+
+# Temporary and Backup Files
+*.tmp
+*.bak
+*.backup
+*.orig
+*.old
+*~
+.~*
+*.swp
+*.swo
+.#*
+
+# Coverage and Testing
+.jacoco
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+*.cover
+.hypothesis/
+.nyc_output
+coverage/
+
+# Intellij
+.idea/
+*.iml
+out/
+
+# Node (if used in web project)
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Compiled output (if applicable)
+dist/
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+
+# Runtime log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+node_modules/
+
+# Optional eslint cache
+.eslintcache
+
+# Generated files
+generated/
+.generated/
+
+# Local development overrides
+.local/
+local-config.properties
+
+# Database backups
+*.sql.bak
+*.sql.backup
+
+# Tomcat specific (if local deployment)
+catalina.base/
+catalina.home/
+
+# Any file starting with dot (hidden files)
+.DS_Store
+.env
+.bashrc
+.bash_profile
+
+# IDE plugin specific files
+.idea_modules/
+
+# Large or sensitive files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Staging area
+.staging/

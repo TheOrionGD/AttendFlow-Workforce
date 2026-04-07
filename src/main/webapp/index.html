@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="attendanceApp">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Management System</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body ng-controller="MainController as main">
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark"></div>
+            <div>
+                <h1>Attendance Manager</h1>
+                <p>Web Technology Formative</p>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <button ng-class="{active: main.view === 'mark'}" ng-click="main.switchView('mark')">Mark Attendance</button>
+            <button ng-class="{active: main.view === 'view'}" ng-click="main.switchView('view')">View Records</button>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero-card">
+            <div>
+                <h2>{{ main.view === 'mark' ? 'Mark Attendance' : 'Attendance Records' }}</h2>
+                <p>{{ main.view === 'mark' ? 'Select students and submit daily attendance in one smooth workflow.' : 'Filter attendance records by date, review status, and keep your team synchronized.' }}</p>
+            </div>
+            <div class="kpi-panel">
+                <div class="kpi-card">
+                    <span>Total Students</span>
+                    <strong>{{ main.students.length }}</strong>
+                </div>
+                <div class="kpi-card">
+                    <span>Marked Today</span>
+                    <strong>{{ main.markedCount() }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <div class="alert-bar" ng-if="main.alert.message" ng-class="main.alert.type">
+            {{ main.alert.message }}
+        </div>
+
+        <section class="page-card" ng-show="main.view === 'mark'">
+            <div class="section-head">
+                <div>
+                    <h3>Attendance Session</h3>
+                    <p>Choose date and update each student’s presence.</p>
+                </div>
+                <div class="date-field">
+                    <label for="attendanceDate">Date</label>
+                    <input id="attendanceDate" type="date" ng-model="main.attendanceDate" />
+                </div>
+            </div>
+
+            <div class="cards-grid">
+                <article class="student-card" ng-repeat="student in main.students" ng-class="{'present': student.status === 'Present'}">
+                    <div class="student-info">
+                        <span class="student-id">#{{ student.id }}</span>
+                        <h4>{{ student.name }}</h4>
+                    </div>
+                    <div class="toggle-row">
+                        <button class="state-btn present-btn" ng-class="{selected: student.status === 'Present'}" ng-click="main.setStatus(student, 'Present')">Present</button>
+                        <button class="state-btn absent-btn" ng-class="{selected: student.status === 'Absent'}" ng-click="main.setStatus(student, 'Absent')">Absent</button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="actions-row">
+                <button class="primary-btn" ng-click="main.submitAttendance()" ng-disabled="main.isSubmitting">Submit Attendance</button>
+                <button class="secondary-btn" ng-click="main.markAllPresent()" ng-disabled="main.isSubmitting">✓ Mark All Present</button>
+                <div class="status-caption">Present students are highlighted in soft green, absent remain muted.</div>
+            </div>
+        </section>
+
+        <section class="page-card" ng-show="main.view === 'view'">
+            <div class="section-head">
+                <div>
+                    <h3>Attendance Records</h3>
+                    <p>Search by date, or show all records to review attendance history.</p>
+                </div>
+                <div class="filter-row">
+                    <input type="date" ng-model="main.recordDate" placeholder="Filter by date" />
+                    <button class="secondary-btn" ng-click="main.loadAttendance()">Filter</button>
+                    <button class="secondary-btn" ng-click="main.clearFilter()">Clear</button>
+                </div>
+            </div>
+
+            <div class="table-shell" ng-if="main.records.length">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="record in main.records" ng-class="{'present-row': record.status === 'Present'}">
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.studentName }}</td>
+                            <td>{{ record.status }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" ng-if="!main.records.length">
+                No records found. Choose a date or submit today's attendance to start tracking.
+            </div>
+        </section>
+    </main>
+</body>
+</html>

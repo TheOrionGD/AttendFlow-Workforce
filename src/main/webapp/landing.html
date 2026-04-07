@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS | Attendance Management System - Enterprise Solution</title>
+    <style>
+        /* ===== CSS VARIABLES: 60:30:10 Color Palette ===== */
+        :root {
+            /* Primary (60%) - Deep Charcoal */
+            --primary-bg: #0E0E10;
+            --primary-bg-2: #1A1A1D;
+            --primary-bg-3: #222326;
+
+            /* Secondary (30%) - Silver/Platinum */
+            --secondary-main: #C0C0C0;
+            --secondary-soft: #D9D9D9;
+            --secondary-muted: #8F8F8F;
+            --secondary-light: #E8E8E8;
+
+            /* Accent (10%) - Gold/Amber */
+            --accent-main: #D4AF37;
+            --accent-hover: #C9A227;
+            --accent-glow: #FFD700;
+            --accent-dim: #8B7D1F;
+
+            /* Text Colors */
+            --text-primary: #F5F5F5;
+            --text-secondary: #B0B0B0;
+            --text-muted: #7A7A7A;
+
+            /* Semantic Colors */
+            --success: #4CAF50;
+            --success-dim: #2E7D32;
+            --error: #F44336;
+            --warning: #FFC107;
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: radial-gradient(circle at top, rgba(212, 175, 55, 0.08), transparent 40%), 
+                        linear-gradient(180deg, var(--primary-bg) 0%, var(--primary-bg-2) 50%, var(--primary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg-2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-main);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== UTILITIES ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-main), var(--accent-hover));
+            color: #000;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, var(--accent-glow), var(--accent-main));
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary-soft);
+            border: 2px solid var(--secondary-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(192, 192, 192, 0.1);
+            color: var(--accent-main);
+            border-color: var(--accent-main);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== CARDS (GLASSMORPHISM) ===== */
+        .card {
+            background: rgba(34, 35, 38, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 192, 192, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: rgba(34, 35, 38, 0.8);
+            border-color: rgba(192, 192, 192, 0.35);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* ===== BADGES & STATUS ===== */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent-main);
+            font-weight: 600;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(14, 14, 16, 0.95), rgba(14, 14, 16, 0.8));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.12);
+            padding: 1.5rem 0;
+        }
+
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-main), var(--accent-hover));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-main);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-main);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 100px;
+            padding: 8rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-main));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-graphic {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 4rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-box {
+            background: rgba(34, 35, 38, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 192, 192, 0.15);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            background: rgba(34, 35, 38, 0.7);
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            background: rgba(26, 26, 29, 0.5);
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            position: relative;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: linear-gradient(135deg, var(--accent-main), var(--accent-hover));
+            border-color: var(--accent-main);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .feature-card h3 {
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+        }
+
+        /* ===== TECH STACK SECTION ===== */
+        .tech-stack {
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tech-item {
+            background: rgba(34, 35, 38, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: rgba(34, 35, 38, 0.8);
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .tech-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-version {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== DEMO SECTION ===== */
+        .demo-section {
+            background: rgba(26, 26, 29, 0.5);
+            margin-top: 4rem;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .student-card-demo {
+            background: linear-gradient(135deg, rgba(34, 35, 38, 0.8), rgba(26, 26, 29, 0.8));
+            border: 1px solid rgba(192, 192, 192, 0.2);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.15);
+        }
+
+        .student-info {
+            text-align: left;
+        }
+
+        .student-id {
+            color: var(--accent-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-name {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .kpi-display {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            color: var(--accent-main);
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-start;
+        }
+
+        .btn-demo {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-present {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-present:hover,
+        .btn-present.active {
+            background: #4CAF50;
+            color: #000;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-absent {
+            background: rgba(139, 125, 31, 0.15);
+            color: var(--secondary-muted);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+        }
+
+        .btn-absent:hover,
+        .btn-absent.active {
+            background: rgba(192, 192, 192, 0.15);
+            color: var(--text-secondary);
+            border-color: var(--secondary-main);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .demo-feature {
+            padding: 1.5rem;
+            background: rgba(34, 35, 38, 0.4);
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .demo-feature-num {
+            font-size: 2rem;
+            color: var(--accent-main);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-feature-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(180deg, rgba(14, 14, 16, 0.95), rgba(14, 14, 16, 1));
+            border-top: 1px solid rgba(255, 215, 0, 0.12);
+            padding: 4rem 0 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+        }
+
+        .footer-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-main);
+        }
+
+        .system-pulse {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .pulse-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pulse-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .pulse-status {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-credits {
+            color: var(--accent-main);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .hero {
+                margin-top: 80px;
+                padding: 4rem 0 3rem;
+            }
+
+            .nav {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-graphic {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .header-badges {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container">
+            <div class="header-wrapper">
+                <a href="#" class="logo">
+                    <div class="logo-icon">📊</div>
+                    <span>AMS</span>
+                </a>
+                <nav class="nav">
+                    <a href="#features" class="nav-link">Mark Attendance</a>
+                    <a href="#demo" class="nav-link">View Records</a>
+                    <a href="#tech" class="nav-link">Architecture</a>
+                </nav>
+                <div class="header-badges">
+                    <span class="badge">
+                        <div class="pulse"></div>
+                        Live System
+                    </span>
+                    <span class="badge" style="background: transparent; border-color: rgba(212, 175, 55, 0.2);">
+                        v1.0.0
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content animate-in">
+                <h1>Efficient Attendance Management for Modern Classrooms</h1>
+                <p>
+                    A full-stack, three-tier web application designed for educational institutions to track, 
+                    manage, and analyze student presence with precision, elegance, and enterprise-grade reliability.
+                </p>
+                <div class="hero-cta">
+                    <a href="index.html" class="btn btn-primary">
+                        🚀 Launch Dashboard
+                    </a>
+                    <a href="README_ENTERPRISE.md" class="btn btn-secondary">
+                        📖 View Documentation
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-graphic">
+                <div class="stat-box">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Students Managed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">ACID Compliant</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3-Tier</div>
+                    <div class="stat-label">Architecture</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Core Features</h2>
+            <div class="grid grid-3">
+                <div class="card feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Student Management</h3>
+                    <p>
+                        Real-time roster metrics and comprehensive student tracking. Display dynamic student 
+                        list with unique IDs and instant count updates.
+                    </p>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Batch Submission</h3>
+                    <p>
+                        Transaction-safe attendance marking for 50+ concurrent students. Atomically submit 
+                        records with duplicate prevention and rollback support.
+                    </p>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Advanced Filtering</h3>
+                    <p>
+                        Date-based historical data retrieval with visual distinctions. Filter by date, 
+                        sort by name, and analyze attendance patterns instantly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TECH STACK SECTION ===== -->
+    <section class="section tech-stack" id="tech">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Architecture Excellence</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 3rem;">
+                Built with modern, battle-tested technologies for reliability and performance
+            </p>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">☕</div>
+                    <div class="tech-name">Backend</div>
+                    <div class="tech-version">Java 21 & Tomcat 9</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <div class="tech-name">Frontend</div>
+                    <div class="tech-version">AngularJS 1.8.2 SPA</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🗄️</div>
+                    <div class="tech-name">Database</div>
+                    <div class="tech-version">MySQL 8.0 ACID</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📋</div>
+                    <div class="tech-name">Build Tool</div>
+                    <div class="tech-version">Maven 3.9+</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📦</div>
+                    <div class="tech-name">JSON Parser</div>
+                    <div class="tech-version">Gson 2.10.1</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔌</div>
+                    <div class="tech-name">Database Driver</div>
+                    <div class="tech-version">Connector/J 9.5.0</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DEMO SECTION ===== -->
+    <section class="section demo-section" id="demo">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Interactive Demo</h2>
+            <div class="demo-container">
+                <div class="student-card-demo">
+                    <div class="student-header">
+                        <div class="student-info">
+                            <div class="student-id">#1</div>
+                            <div class="student-name">ABDUL RAZEEK A</div>
+                        </div>
+                        <div class="kpi-display">Marked: 35/50</div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-demo btn-present active" onclick="toggleDemo(this, 'present')">
+                            ✓ Present
+                        </button>
+                        <button class="btn-demo btn-absent" onclick="toggleDemo(this, 'absent')">
+                            ✗ Absent
+                        </button>
+                    </div>
+                </div>
+
+                <div class="demo-grid">
+                    <div class="demo-feature">
+                        <div class="demo-feature-num">50</div>
+                        <div class="demo-feature-label">Students per Class</div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-feature-num">250+</div>
+                        <div class="demo-feature-label">Historical Records</div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-feature-num">5</div>
+                        <div class="demo-feature-label">Sample Dates</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="system-pulse">
+                <div class="pulse-content">
+                    <div class="pulse"></div>
+                    <span class="pulse-label">Database Status:</span>
+                </div>
+                <span class="pulse-status">Connected & Operational</span>
+            </div>
+
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <p><a href="#features">Features</a></p>
+                    <p><a href="#demo">Demo</a></p>
+                    <p><a href="#tech">Architecture</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Documentation</h4>
+                    <p><a href="README_ENTERPRISE.md">Enterprise README</a></p>
+                    <p><a href="#">API Reference</a></p>
+                    <p><a href="#">Deployment Guide</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <p><a href="#">GitHub Repository</a></p>
+                    <p><a href="#">Issue Tracker</a></p>
+                    <p><a href="#">Support Center</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-credits">
+                    🎓 Project Type: Web Technology Formative Assessment
+                </div>
+                <p>
+                    <strong>Attendance Management System v1.0.0</strong><br>
+                    © 2026 AMS Project Team. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Interactive demo toggle
+        function toggleDemo(button, state) {
+            const isDemo = button.closest('.student-card-demo');
+            const buttons = isDemo.querySelectorAll('.btn-demo');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .stat-box, .tech-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active nav link on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.style.color = 'var(--accent-main)';
+                } else {
+                    link.style.color = 'var(--text-secondary)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
