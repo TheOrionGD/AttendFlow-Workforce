@@ -52,12 +52,10 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
-    @SuppressWarnings("unused")
     private static class StudentRequest {
         String name;
     }
 
-    @SuppressWarnings("unused")
     private static class SimpleResponse {
         private final String message;
 
@@ -66,7 +64,6 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
-    @SuppressWarnings("unused")
     private static class ErrorResponse {
         private final String error;
 

@@ -58,19 +58,16 @@ public class AttendanceServlet extends HttpServlet {
         resp.getWriter().write(gson.toJson(new SimpleResponse("Attendance endpoint. Use POST to submit attendance.")));
     }
 
-    @SuppressWarnings("unused")
     private static class AttendanceRequest {
         String date;
         List<Record> records;
     }
 
-    @SuppressWarnings("unused")
     private static class Record {
         int studentId;
         String status;
     }
 
-    @SuppressWarnings("unused")
     private static class SimpleResponse {
         private final String message;
 

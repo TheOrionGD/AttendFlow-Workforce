@@ -227,3 +227,8 @@ catalina.home/
 
 # Staging area
 .staging/
+
+# Local development and AI configurations
+.claude/
+.gemini/
+/favicon.png

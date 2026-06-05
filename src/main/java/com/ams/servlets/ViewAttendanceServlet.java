@@ -30,7 +30,6 @@ public class ViewAttendanceServlet extends HttpServlet {
         }
     }
 
-    @SuppressWarnings("unused")
     private static class ErrorResponse {
         private final String message;
 
